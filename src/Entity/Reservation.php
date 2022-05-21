@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -66,6 +68,39 @@ class Reservation
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $chiefMail;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Car::class, inversedBy="reservations")
+     */
+    private $cars;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Site::class, inversedBy="reservations")
+     */
+    private $sites;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Personel::class, inversedBy="reservations")
+     */
+    private $personel;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Team::class, inversedBy="reservations")
+     */
+    private $teams;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=TypeCar::class, inversedBy="reservations")
+     */
+    private $types;
+
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+        $this->sites = new ArrayCollection();
+        $this->teams = new ArrayCollection();
+        $this->types = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -188,6 +223,114 @@ class Reservation
     public function setChiefMail(?string $chiefMail): self
     {
         $this->chiefMail = $chiefMail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        $this->cars->removeElement($car);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Site>
+     */
+    public function getSites(): Collection
+    {
+        return $this->sites;
+    }
+
+    public function addSite(Site $site): self
+    {
+        if (!$this->sites->contains($site)) {
+            $this->sites[] = $site;
+        }
+
+        return $this;
+    }
+
+    public function removeSite(Site $site): self
+    {
+        $this->sites->removeElement($site);
+
+        return $this;
+    }
+
+    public function getPersonel(): ?Personel
+    {
+        return $this->personel;
+    }
+
+    public function setPersonel(?Personel $personel): self
+    {
+        $this->personel = $personel;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        $this->teams->removeElement($team);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeCar>
+     */
+    public function getTypes(): Collection
+    {
+        return $this->types;
+    }
+
+    public function addType(TypeCar $type): self
+    {
+        if (!$this->types->contains($type)) {
+            $this->types[] = $type;
+        }
+
+        return $this;
+    }
+
+    public function removeType(TypeCar $type): self
+    {
+        $this->types->removeElement($type);
 
         return $this;
     }

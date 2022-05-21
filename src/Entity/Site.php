@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,22 @@ class Site
      * @ORM\Column(type="integer", nullable=true)
      */
     private $code;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Reservation::class, mappedBy="sites")
+     */
+    private $reservations;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Car::class, mappedBy="sites")
+     */
+    private $cars;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+        $this->cars = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +70,60 @@ class Site
     public function setCode(?int $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->addSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            $reservation->removeSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->addSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            $car->removeSite($this);
+        }
 
         return $this;
     }

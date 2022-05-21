@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonelRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -69,6 +71,32 @@ class Personel implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $portable;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="personel")
+     */
+    private $reservations;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $codeTeam;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $codeSite;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="personel")
+     */
+    private $cars;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+        $this->cars = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -234,6 +262,90 @@ class Personel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPortable(?string $portable): self
     {
         $this->portable = $portable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setPersonel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getPersonel() === $this) {
+                $reservation->setPersonel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCodeTeam(): ?int
+    {
+        return $this->codeTeam;
+    }
+
+    public function setCodeTeam(?int $codeTeam): self
+    {
+        $this->codeTeam = $codeTeam;
+
+        return $this;
+    }
+
+    public function getCodeSite(): ?int
+    {
+        return $this->codeSite;
+    }
+
+    public function setCodeSite(?int $codeSite): self
+    {
+        $this->codeSite = $codeSite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->setPersonel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // set the owning side to null (unless already changed)
+            if ($car->getPersonel() === $this) {
+                $car->setPersonel(null);
+            }
+        }
 
         return $this;
     }

@@ -1,3 +1,11 @@
 body {
   background-color: $primary-color;
 }
+
+.btn-color {
+  background-color: $button-color;
+  color: black;
+  &:hover {
+    background-image: $button-color-gradient;
+  }
+}

@@ -112,11 +112,6 @@ class Car
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $isReserved;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
     private $isAvailable;
 
     /**

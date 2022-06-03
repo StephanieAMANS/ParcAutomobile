@@ -22,30 +22,8 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('applicantMail', EmailType::class,[
-                'label' => 'Email du demandeur',
-                'attr' => [
-                    'class' => 'border border-dark'
-                ]
-            ])
             ->add('demand', TextType::class,[
                 'label' => 'Demande OM ou personnelle',
-                'attr' => [
-                    'class' => 'border border-dark'
-                ]
-            ])
-            ->add('isDemandValid', ChoiceType::class,[
-                'label' => 'Validation OM ou personnelle',
-                'choices' => [
-                    'Demande validée' => 'oui',
-                    'Demande non validée' => 'non',
-                ],
-                'attr' => [
-                    'class' => 'border border-dark'
-                ]
-            ])
-            ->add('chiefMail',EmailType::class,[
-                'label' => 'Email du responsable du salarié',
                 'attr' => [
                     'class' => 'border border-dark'
                 ]
@@ -97,18 +75,7 @@ class ReservationType extends AbstractType
                 'multiple' =>  true,
                 'expanded' => true,
             ])
-            ->add('movement', ChoiceType::class,[
-                'label' => 'Déplacement',
-                'mapped' => false,
-                'required' => false,
-                'choices' => [
-                    'Déplacement courte durée' => 'courte durée',
-                    'Déplacement longue durée' => 'longue durée',
-                ],
-                'attr' => [
-                    'class' => 'border border-dark'
-                ]
-            ])
+
             ->add('types', EntityType::class,[
                 'label' => 'Sélectionnez votre voiture',
                 'class' => TypeCar::class,

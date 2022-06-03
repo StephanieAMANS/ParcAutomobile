@@ -34,9 +34,21 @@ class Team
      */
     private $reservations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Personel::class, mappedBy="team")
+     */
+    private $personels;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Car::class, mappedBy="teams")
+     */
+    private $cars;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->personels = new ArrayCollection();
+        $this->cars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,6 +102,63 @@ class Team
     {
         if ($this->reservations->removeElement($reservation)) {
             $reservation->removeTeam($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Personel>
+     */
+    public function getPersonels(): Collection
+    {
+        return $this->personels;
+    }
+
+    public function addPersonel(Personel $personel): self
+    {
+        if (!$this->personels->contains($personel)) {
+            $this->personels[] = $personel;
+            $personel->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonel(Personel $personel): self
+    {
+        if ($this->personels->removeElement($personel)) {
+            // set the owning side to null (unless already changed)
+            if ($personel->getTeam() === $this) {
+                $personel->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->addTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            $car->removeTeam($this);
         }
 
         return $this;

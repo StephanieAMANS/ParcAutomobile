@@ -29,6 +29,7 @@ class ReservationController extends AbstractController
             $entityManager->persist($reservation);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre demande de réservation de voiture a bien été prise en compte');
             return $this->redirectToRoute('new_reservation');
         }
         return $this->renderForm('reservation/create.html.twig', [

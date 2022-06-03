@@ -19,6 +19,17 @@
     </head>
     <body>
         {% include '_components/_navbar.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-success d-flex justify-content-center">
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         {% block body %}{% endblock %}
     </body>
     <script src="/build/app.js"></script>

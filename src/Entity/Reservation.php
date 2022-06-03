@@ -25,9 +25,9 @@ class Reservation
     private $demand;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $isDemandValid;
+    private $numberOM;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -60,14 +60,49 @@ class Reservation
     private $comments;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private $applicantMail;
+    private $trip;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $winterEquipment;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $departureCounterKilometers;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $returnCounterKilometers;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $estimatedKilometers;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $traveledKilometers;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $actualReturnDate;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $dateMAJ;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $chiefMail;
+    private $returnComments;
 
     /**
      * @ORM\ManyToMany(targetEntity=Car::class, inversedBy="reservations")
@@ -79,12 +114,7 @@ class Reservation
      */
     private $sites;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Personel::class, inversedBy="reservations")
-     */
-    private $personel;
-
-    /**
+       /**
      * @ORM\ManyToMany(targetEntity=Team::class, inversedBy="reservations")
      */
     private $teams;
@@ -93,6 +123,12 @@ class Reservation
      * @ORM\ManyToMany(targetEntity=TypeCar::class, inversedBy="reservations")
      */
     private $types;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Personel::class, inversedBy="reservations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $personel;
 
     public function __construct()
     {
@@ -119,14 +155,14 @@ class Reservation
         return $this;
     }
 
-    public function isIsDemandValid(): ?bool
+    public function getNumberOM(): ?int
     {
-        return $this->isDemandValid;
+        return $this->numberOM;
     }
 
-    public function setIsDemandValid(bool $isDemandValid): self
+    public function setNumberOM(?int $numberOM): self
     {
-        $this->isDemandValid = $isDemandValid;
+        $this->numberOM = $numberOM;
 
         return $this;
     }
@@ -203,29 +239,6 @@ class Reservation
         return $this;
     }
 
-    public function getApplicantMail(): ?string
-    {
-        return $this->applicantMail;
-    }
-
-    public function setApplicantMail(string $applicantMail): self
-    {
-        $this->applicantMail = $applicantMail;
-
-        return $this;
-    }
-
-    public function getChiefMail(): ?string
-    {
-        return $this->chiefMail;
-    }
-
-    public function setChiefMail(?string $chiefMail): self
-    {
-        $this->chiefMail = $chiefMail;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Car>
@@ -275,14 +288,110 @@ class Reservation
         return $this;
     }
 
-    public function getPersonel(): ?Personel
+    public function getTrip(): ?string
     {
-        return $this->personel;
+        return $this->trip;
     }
 
-    public function setPersonel(?Personel $personel): self
+    public function setTrip(?string $trip): self
     {
-        $this->personel = $personel;
+        $this->trip = $trip;
+
+        return $this;
+    }
+
+    public function getWinterEquipment(): ?string
+    {
+        return $this->winterEquipment;
+    }
+
+    public function setWinterEquipment(?string $winterEquipment): self
+    {
+        $this->winterEquipment = $winterEquipment;
+
+        return $this;
+    }
+
+    public function getDepartureCounterKilometers(): ?int
+    {
+        return $this->departureCounterKilometers;
+    }
+
+    public function setDepartureCounterKilometers(?int $departureCounterKilometers): self
+    {
+        $this->departureCounterKilometers = $departureCounterKilometers;
+
+        return $this;
+    }
+
+    public function getReturnCounterKilometers(): ?int
+    {
+        return $this->returnCounterKilometers;
+    }
+
+    public function setReturnCounterKilometers(?int $returnCounterKilometers): self
+    {
+        $this->returnCounterKilometers = $returnCounterKilometers;
+
+        return $this;
+    }
+
+    public function getEstimatedKilometers(): ?int
+    {
+        return $this->estimatedKilometers;
+    }
+
+    public function setEstimatedKilometers(?int $estimatedKilometers): self
+    {
+        $this->estimatedKilometers = $estimatedKilometers;
+
+        return $this;
+    }
+
+    public function getTraveledKilometers(): ?int
+    {
+        return $this->traveledKilometers;
+    }
+
+    public function setTraveledKilometers(?int $traveledKilometers): self
+    {
+        $this->traveledKilometers = $traveledKilometers;
+
+        return $this;
+    }
+
+    public function getActualReturnDate(): ?int
+    {
+        return $this->actualReturnDate;
+    }
+
+    public function setActualReturnDate(?int $actualReturnDate): self
+    {
+        $this->actualReturnDate = $actualReturnDate;
+
+        return $this;
+    }
+
+    public function getDateMAJ(): ?int
+    {
+        return $this->dateMAJ;
+    }
+
+    public function setDateMAJ(?int $dateMAJ): self
+    {
+        $this->dateMAJ = $dateMAJ;
+
+        return $this;
+    }
+
+    public function getReturnComments(): ?string
+    {
+        return $this->returnComments;
+    }
+
+    public function setReturnComments(?string $returnComments): self
+    {
+        $this->returnComments = $returnComments;
 
         return $this;
     }
@@ -331,6 +440,18 @@ class Reservation
     public function removeType(TypeCar $type): self
     {
         $this->types->removeElement($type);
+
+        return $this;
+    }
+
+    public function getPersonel(): ?Personel
+    {
+        return $this->personel;
+    }
+
+    public function setPersonel(?Personel $personel): self
+    {
+        $this->personel = $personel;
 
         return $this;
     }

@@ -134,11 +134,17 @@ class Car
      */
     private $personel;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Team::class, inversedBy="cars")
+     */
+    private $teams;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->types = new ArrayCollection();
         $this->sites = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -469,6 +475,30 @@ class Car
     public function setPersonel(?Personel $personel): self
     {
         $this->personel = $personel;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        $this->teams->removeElement($team);
 
         return $this;
     }

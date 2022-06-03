@@ -39,10 +39,16 @@ class Site
      */
     private $cars;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Personel::class, mappedBy="site")
+     */
+    private $personels;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->cars = new ArrayCollection();
+        $this->personels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +129,36 @@ class Site
     {
         if ($this->cars->removeElement($car)) {
             $car->removeSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Personel>
+     */
+    public function getPersonels(): Collection
+    {
+        return $this->personels;
+    }
+
+    public function addPersonel(Personel $personel): self
+    {
+        if (!$this->personels->contains($personel)) {
+            $this->personels[] = $personel;
+            $personel->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonel(Personel $personel): self
+    {
+        if ($this->personels->removeElement($personel)) {
+            // set the owning side to null (unless already changed)
+            if ($personel->getSite() === $this) {
+                $personel->setSite(null);
+            }
         }
 
         return $this;

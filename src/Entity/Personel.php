@@ -73,29 +73,29 @@ class Personel implements UserInterface, PasswordAuthenticatedUserInterface
     private $portable;
 
     /**
+     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="personel")
+     */
+    private $cars;
+
+    /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="personel")
      */
     private $reservations;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="personels")
      */
-    private $codeTeam;
+    private $site;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="personels")
      */
-    private $codeSite;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="personel")
-     */
-    private $cars;
+    private $team;
 
     public function __construct()
     {
-        $this->reservations = new ArrayCollection();
         $this->cars = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -272,60 +272,6 @@ class Personel implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Reservation>
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
-    public function addReservation(Reservation $reservation): self
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations[] = $reservation;
-            $reservation->setPersonel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): self
-    {
-        if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
-            if ($reservation->getPersonel() === $this) {
-                $reservation->setPersonel(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getCodeTeam(): ?int
-    {
-        return $this->codeTeam;
-    }
-
-    public function setCodeTeam(?int $codeTeam): self
-    {
-        $this->codeTeam = $codeTeam;
-
-        return $this;
-    }
-
-    public function getCodeSite(): ?int
-    {
-        return $this->codeSite;
-    }
-
-    public function setCodeSite(?int $codeSite): self
-    {
-        $this->codeSite = $codeSite;
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Car>
      */
     public function getCars(): Collection
@@ -351,6 +297,60 @@ class Personel implements UserInterface, PasswordAuthenticatedUserInterface
                 $car->setPersonel(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservations(Reservation $reservations): self
+    {
+        if (!$this->reservations->contains($reservations)) {
+            $this->reservations[] = $reservations;
+            $reservations->setPersonel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservations(Reservation $reservations): self
+    {
+        if ($this->reservations->removeElement($reservations)) {
+            // set the owning side to null (unless already changed)
+            if ($reservations->getPersonel() === $this) {
+                $reservations->setPersonel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): self
+    {
+        $this->team = $team;
 
         return $this;
     }

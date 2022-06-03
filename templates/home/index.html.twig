@@ -1,8 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
+<!--- Haut de page --->
+    <div class="row connectionTitle">
+        <div class="container-fluid col-md-6 text-center fs-4 bold mt-5">
+            <div class="col-md-12">
+                <p>Bienvenue sur l'application Parc Automobile</p>
+            </div>
+        </div>
+    </div>
 
-
+<!--- Contenu page --->
+    <div class="container d-flex justify-content-center mt-5 text-center">
+        <div class="col-5 d-flex align-items-center">
+            <p class="fs-3 mx-auto">Bienvenue sur l'application qui permet de réserver une voiture pour vos déplacements professionnels</p>
+        </div>
+        <div class="col-5 d-flex flex-column ms-5">
+            <img src="{{ asset('build/images/car.jpg') }}" class="w-100" alt="voitures">
+        </div>
+    </div>
 {% endblock %}

@@ -17,10 +17,7 @@
             <h1 class="fs-4 text-center mt-3">Formulaire de réservation d'une voiture</h1>
             <div class="col-10 col-lg-5 mx-auto mt-5">
                 {{ form_start(reservationForm) }}
-                {{ form_row(reservationForm.applicantMail) }}
                 {{ form_row(reservationForm.demand) }}
-                {{ form_row(reservationForm.isDemandValid) }}
-                {{ form_row(reservationForm.chiefMail) }}
                 {{ form_row(reservationForm.operationCode) }}
                 {{ form_row(reservationForm.teams) }}
                 {{ form_row(reservationForm.departureDate) }}
@@ -28,7 +25,6 @@
                 {{ form_row(reservationForm.returnDate) }}
                 {{ form_row(reservationForm.returnTime) }}
                 {{ form_row(reservationForm.sites) }}
-                {{ form_row(reservationForm.movement) }}
                 {{ form_row(reservationForm.types) }}
                 {{ form_row(reservationForm.comments) }}
             </div>
